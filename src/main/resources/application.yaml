@@ -1,0 +1,20 @@
+logging:
+  level:
+    root: INFO                      #root: INFO = Default log level for everything is INFO
+    com.example.journalApp: DEBUG  #com.example.journalApp: DEBUG = For your specific package, log at DEBUG level
+  file:
+    name: F:/SpringBoot/journalApp/journalApp.log
+spring:
+  data:
+    mongodb:
+      auto-index-creation: 'true'
+      database: journaldb
+  application:
+    name: Journal Application
+server:
+  port: '8080'
+  error:
+    include-message: always
+    include-stacktrace: always
+
+

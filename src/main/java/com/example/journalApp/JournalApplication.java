@@ -6,9 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
 
 @SpringBootApplication
 @EnableTransactionManagement
+@EnableScheduling
 @EnableMongoRepositories(basePackages = "com.example.journalApp.repository")
 public class JournalApplication {
 

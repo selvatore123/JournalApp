@@ -25,17 +25,17 @@ public class SpringSecurity {
     }
 
     @Bean
-    public static PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    public static PasswordEncoder passwordEncoder(){ // This is a bean because it is used in the UserService class to encode the password.
+        return new BCryptPasswordEncoder(); 
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception { // This is a bean because it is used in the UserService class to authenticate the user.
         return configuration.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { 
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll()
@@ -43,10 +43,10 @@ public class SpringSecurity {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(Customizer.withDefaults()) // This is used to authenticate the user using the basic authentication.
+                .csrf(AbstractHttpConfigurer::disable) // This is used to disable the csrf protection.
                 .userDetailsService(userDetailService) // btw its auto detectable due to component scanning provided by springboot so if want to remove userDetailService from this class we can remove it, Spring automatically detects it from the application context.
-                .build();
+                .build(); // This is used to build the security filter chain.
 
     }
 }

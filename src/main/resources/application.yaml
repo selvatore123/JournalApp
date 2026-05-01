@@ -4,6 +4,7 @@ logging:
     com.example.journalApp: DEBUG  #com.example.journalApp: DEBUG = For your specific package, log at DEBUG level
   file:
     name: F:/SpringBoot/journalApp/journalApp.log
+
 spring:
   data:
     mongodb:
@@ -11,10 +12,23 @@ spring:
       database: journaldb
   application:
     name: Journal Application
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: aryanbtechcse@gmail.com
+    password: hwtw nnuf atgd tpji
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
 server:
   port: '8080'
   error:
     include-message: always
     include-stacktrace: always
+
+weather:
+  api:
+    key : "849343a436deee5fc8f01ce7b7380dfc"
 
 

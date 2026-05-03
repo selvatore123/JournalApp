@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
 
 @Component
 public class WeatherService {
@@ -24,10 +25,14 @@ public class WeatherService {
     private AppCache appCache;
 
     public WeatherResponse getWeather(String city){
-        String FinalAPI = appCache.appCache.get(AppCache.keys.WEATHER_API.toString()).replace(Placeholders.API_KEY, API_KEY).replace(Placeholders.CITY, city);
-        ResponseEntity<WeatherResponse> response = restTemplate.exchange(
-                FinalAPI,
-                HttpMethod.GET,
+            String finalApi = Objects.requireNonNull(
+                    appCache.appCache.get(AppCache.keys.WEATHER_API.toString()),
+                    "WEATHER_API template missing from cache"
+            ).replace(Placeholders.API_KEY, API_KEY).replace(Placeholders.CITY, city);
+
+            ResponseEntity<WeatherResponse> response = restTemplate.exchange(
+                finalApi,
+                Objects.requireNonNull(HttpMethod.GET, "HttpMethod.GET"),
                 null,
                 WeatherResponse.class
         );

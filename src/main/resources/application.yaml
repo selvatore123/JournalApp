@@ -6,9 +6,12 @@ logging:
     name: F:/SpringBoot/journalApp/journalApp.log
 
 spring:
+  redis:
+    host: localhost
+    port: 6379
   data:
     mongodb:
-      auto-index-creation: 'true'
+      auto-index-creation: true
       database: journaldb
   application:
     name: Journal Application
@@ -21,14 +24,39 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
+  kafka:
+    bootstrap-servers: pkc-921jm.us-east-2.aws.confluent.cloud:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: weekly-sentiment-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer 
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.example.journalApp.model
+
+    properties:
+      sasl:
+        config: org.apache.kafka.common.security.plain.PlainLoginModule required username='3U2BDDGNAJWWI5R3' password='cflt0P57PgcvmKebwt7bD8aKs7XtWX0SmFPLLhX+R60Jv9fUCE9ACTzCCxymRMTA';
+        mechanism: PLAIN
+      session:
+        timeout:
+          ms: 45000
+      security:
+        protocol: SASL_SSL    
+
 server:
-  port: '8080'
+  port: 8080
   error:
     include-message: always
     include-stacktrace: always
 
 weather:
   api:
-    key : "849343a436deee5fc8f01ce7b7380dfc"
+    key : 849343a436deee5fc8f01ce7b7380dfc
 
 

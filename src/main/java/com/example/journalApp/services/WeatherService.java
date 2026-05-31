@@ -24,9 +24,15 @@ public class WeatherService {
     @Autowired
     private AppCache appCache;
 
+    @Autowired
+    private RedisService redisService;
+
     public WeatherResponse getWeather(String city){
-            String finalApi = Objects.requireNonNull(
-                    appCache.appCache.get(AppCache.keys.WEATHER_API.toString()),
+        WeatherResponse weatherResponse = redisService.get(city, WeatherResponse.class); //get the weather response from redis, first argument is the key, second argument is the class of the object to be returned
+            if(weatherResponse != null){
+                return weatherResponse;
+            }else{
+                String finalApi = Objects.requireNonNull(appCache.appCache.get(AppCache.keys.WEATHER_API.toString()),
                     "WEATHER_API template missing from cache"
             ).replace(Placeholders.API_KEY, API_KEY).replace(Placeholders.CITY, city);
 
@@ -35,7 +41,12 @@ public class WeatherService {
                 Objects.requireNonNull(HttpMethod.GET, "HttpMethod.GET"),
                 null,
                 WeatherResponse.class
-        );
-        return response.getBody();
+            );
+                if(response.getBody() != null){
+                    redisService.set(city, response.getBody(), 300);
+                }
+                return response.getBody();
+            } 
+            
     }
 }

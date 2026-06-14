@@ -2,9 +2,7 @@ package com.example.journalApp.scheduler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-
 import com.example.journalApp.repository.UserRepositoryImpl;
-import com.example.journalApp.services.EmailService;
 import java.time.temporal.ChronoUnit;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,8 +18,6 @@ import java.util.Map;
 
 public class UserScheduler {
 
-    @Autowired
-    private EmailService emailService;
 
     @Autowired
     private UserRepositoryImpl userRepositoryImpl;
